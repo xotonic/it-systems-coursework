@@ -45,7 +45,7 @@ namespace it_systems_coursework
             foreach (var item in sel)
             {
                 AddComputer addpc = new AddComputer(item as Computer);
-                addpc.ShowDialog();
+                addpc.ShowDialog(); 
             }
             HardwareListView.ItemsSource = null;
             HardwareListView.ItemsSource = computers;
