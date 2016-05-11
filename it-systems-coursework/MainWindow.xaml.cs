@@ -21,6 +21,7 @@ namespace it_systems_coursework
     public partial class MainWindow : Window
     {
         ObservableCollection<Computer> computers = new ObservableCollection<Computer>();
+        ObservableCollection<Software> software = new ObservableCollection<Software>();
 
         public MainWindow()
         {
@@ -28,7 +29,11 @@ namespace it_systems_coursework
             computers.Add(new Computer { name = "Aspire V5-561G", producer = "Acer", count = 2 });
             computers.Add(new Computer { name = "Thinkpad V3", producer = "Lenovo", count = 1 });
 
+            software.Add(new Software { name = "NOD32 Antivirus", producer = "ESET", price = 1199.0f });
+            software.Add(new Software { name = "Fallout 4", producer = "Bethesda Softworks", price = 1999.0f });
+
             HardwareListView.ItemsSource = computers;
+            SoftwareListView.ItemsSource = software;
         }
 
         private void ClickAddComputer(object sender, RoutedEventArgs e)
@@ -62,5 +67,40 @@ namespace it_systems_coursework
             HardwareListView.ItemsSource = null;
             HardwareListView.ItemsSource = computers;
         }
+    
+
+    private void ClickAddSoftware(object sender, RoutedEventArgs e)
+    {
+        
+        AddSoftware addpc = new AddSoftware();
+        if (addpc.ShowDialog() == true)
+            software.Add(addpc.software);
+            
+
     }
+
+    private void ClickUpdateSoftware(object sender, RoutedEventArgs e)
+    {
+        var sel = SoftwareListView.SelectedItems;
+        foreach (var item in sel)
+        {
+            AddSoftware addpc = new AddSoftware(item as Software);
+            addpc.ShowDialog();
+        }
+            SoftwareListView.ItemsSource = null;
+            SoftwareListView.ItemsSource = software;
+
+    }
+
+    private void ClickDeleteSoftware(object sender, RoutedEventArgs e)
+    {
+        while (SoftwareListView.SelectedItems.Count > 0)
+        {
+            var index = SoftwareListView.Items.IndexOf(SoftwareListView.SelectedItem);
+            software.RemoveAt(index);
+        }
+        SoftwareListView.ItemsSource = null;
+            SoftwareListView.ItemsSource = software;
+    }
+}
 }

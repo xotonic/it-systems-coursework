@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ООО 'ГИК И ГОП'" Height="588.112" Width="808.252">
   <TabControl x:Name="MainTabControl" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
-              TabStripPlacement="Left">
+              TabStripPlacement="Left" Padding="0">
     <TabItem Header="Товары">
       <TabControl x:Name="GoodsTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   TabStripPlacement="Left" Margin="0">
@@ -47,7 +47,39 @@
           </StackPanel>
         </TabItem>
         <TabItem Header="ПО">
-          <Grid Background="LightGray" />
+                    <StackPanel Orientation="Vertical">
+                        <WrapPanel>
+                            <WrapPanel.Resources>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Margin" Value="5,5" />
+                                    <Setter Property="Padding" Value="5,5" />
+                                </Style>
+                            </WrapPanel.Resources>
+                            <Button Name="add_po" Content="Добавить" Click="ClickAddSoftware" />
+                            <Button Name="remove_po" Content="Удалить" Click="ClickDeleteSoftware" />
+                            <Button Name="update_po" Content="Изменить" Click="ClickUpdateSoftware" />
+                            <Button Name="filter_po" Content="Поиск" />
+                        </WrapPanel>
+                        <ListView x:Name="SoftwareListView">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <WrapPanel>
+                                            <TextBlock Text="Name: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding name}" FontWeight="Bold" />
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Developer: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding producer}" FontWeight="Bold" />
+                                            <TextBlock Text=", " />
+                                            <TextBlock Text="Price: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding price}" FontWeight="Bold" />
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
         </TabItem>
       </TabControl>
     </TabItem>

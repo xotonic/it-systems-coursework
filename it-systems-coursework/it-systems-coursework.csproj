@@ -70,6 +70,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddSoftware.xaml.cs">
+      <DependentUpon>AddSoftware.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Software.cs" />
+    <Page Include="AddSoftware.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="AddComputer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
