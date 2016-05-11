@@ -18,6 +18,8 @@
 [Xx]64/
 [Xx]86/
 [Bb]uild/
+x64/
+x86/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -81,7 +83,6 @@ ipch/
 *.sdf
 *.cachefile
 *.VC.db
-
 # Visual Studio profiler
 *.psess
 *.vsp
@@ -140,10 +141,6 @@ publish/
 *.[Pp]ublish.xml
 *.azurePubxml
 
-# TODO: Un-comment the next line if you do not want to checkin 
-# your web deploy settings because they may include unencrypted
-# passwords
-#*.pubxml
 *.publishproj
 
 # NuGet Packages
@@ -181,7 +178,7 @@ BundleArtifacts/
 
 # Others
 ClientBin/
-[Ss]tyle[Cc]op.*
+
 ~$*
 *~
 *.dbmdl
@@ -234,12 +231,13 @@ FakesAssemblies/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 
-# LightSwitch generated files
-GeneratedArtifacts/
-ModelManifest.xml
 
 # Paket dependency manager
 .paket/paket.exe
 
 # FAKE - F# Make
+<<<<<<< HEAD
 .fake/
+=======
+.fake/
+>>>>>>> d9d56087139180e55696625758e06faf00deb069
