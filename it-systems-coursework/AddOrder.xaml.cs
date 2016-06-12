@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,9 +14,12 @@ using System.Windows.Shapes;
 
 namespace it_systems_coursework
 {
-    public partial class AddSoftware : Window
+    /// <summary>
+    /// Логика взаимодействия для AddOrder.xaml
+    /// </summary>
+    public partial class AddOrder : Window
     {
-        public Software software
+        public Order order
         {
             set
             {
@@ -29,29 +31,31 @@ namespace it_systems_coursework
             }
         }
 
-        private Software pc;
+        private Order pc;
         private bool update;
-        public AddSoftware()
+        public AddOrder()
         {
             InitializeComponent();
-            pc = new Software() { name = "-", producer = "-", price = 0 };
+            pc = new Order() { customer = "-", address = "-", count_soft = 0, count_hard = 0 };
         }
-        public AddSoftware(Software comp)
+        public AddOrder(Order ord)
         {
             InitializeComponent();
-            pc = comp;
-            name.Text = comp.name;
-            producer.Text = comp.producer;
-            price.Text = comp.price.ToString();
+            pc = ord;
+            customer.Text = ord.customer;
+            address.Text = ord.address;
+            count_soft.Text = ord.count_soft.ToString();
+            count_hard.Text = ord.count_hard.ToString();
             update = true;
             Ok.Content = "Изменить";
         }
 
         private void Accept(object sender, RoutedEventArgs e)
         {
-            pc.name     = name.Text;
-            pc.producer = producer.Text;
-            pc.price    = float.Parse(price.Text);
+            pc.customer = customer.Text;
+            pc.address = address.Text;
+            pc.count_soft = int.Parse(count_soft.Text);
+            pc.count_hard = int.Parse(count_hard.Text);
 
             DialogResult = true;
         }

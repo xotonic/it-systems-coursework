@@ -22,18 +22,24 @@ namespace it_systems_coursework
     {
         ObservableCollection<Computer> computers = new ObservableCollection<Computer>();
         ObservableCollection<Software> software = new ObservableCollection<Software>();
+        ObservableCollection<Order> orders = new ObservableCollection<Order>();
 
         public MainWindow()
         {
             InitializeComponent();
+
             computers.Add(new Computer { name = "Aspire V5-561G", producer = "Acer", count = 2 });
             computers.Add(new Computer { name = "Thinkpad V3", producer = "Lenovo", count = 1 });
 
             software.Add(new Software { name = "NOD32 Antivirus", producer = "ESET", price = 1199.0f });
             software.Add(new Software { name = "Fallout 4", producer = "Bethesda Softworks", price = 1999.0f });
 
+            orders.Add(new Order { customer = "DNS", address = "пл.Маркса 69", count_soft = 10, count_hard = 10 });
+            orders.Add(new Order { customer = "НГТУ", address = "Немидовича-Данченко 139", count_soft = 0, count_hard = 30 });
+
             HardwareListView.ItemsSource = computers;
             SoftwareListView.ItemsSource = software;
+            OrderListView.ItemsSource = orders;
         }
 
         private void ClickAddComputer(object sender, RoutedEventArgs e)
@@ -102,5 +108,39 @@ namespace it_systems_coursework
         SoftwareListView.ItemsSource = null;
             SoftwareListView.ItemsSource = software;
     }
-}
+
+        private void ClickAddOrder(object sender, RoutedEventArgs e)
+        {
+
+            AddOrder addpc = new AddOrder();
+            if (addpc.ShowDialog() == true)
+                orders.Add(addpc.order);
+
+
+        }
+
+        private void ClickUpdateOrder(object sender, RoutedEventArgs e)
+        {
+            var sel = OrderListView.SelectedItems;
+            foreach (var item in sel)
+            {
+                AddOrder addpc = new AddOrder(item as Order);
+                addpc.ShowDialog();
+            }
+            OrderListView.ItemsSource = null;
+            OrderListView.ItemsSource = orders;
+
+        }
+
+        private void ClickDeleteOrder(object sender, RoutedEventArgs e)
+        {
+            while (OrderListView.SelectedItems.Count > 0)
+            {
+                var index = OrderListView.Items.IndexOf(OrderListView.SelectedItem);
+                orders.RemoveAt(index);
+            }
+            OrderListView.ItemsSource = null;
+            OrderListView.ItemsSource = orders;
+        }
+    }
 }

@@ -43,6 +43,8 @@ namespace it_systems_coursework
             name.Text = comp.name;
             producer.Text = comp.producer;
             count.Text = comp.count.ToString();
+            update = true;
+            Ok.Content = "Изменить";
         }
 
         private void Accept(object sender, RoutedEventArgs e)

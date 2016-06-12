@@ -1,0 +1,35 @@
+﻿<Window x:Class="it_systems_coursework.AddOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:it_systems_coursework"
+        mc:Ignorable="d"
+        Title="AddOrder" Height="300" Width="300">
+    <Grid>
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Заказчик" Grid.Row="0" Grid.Column="0" />
+                <TextBlock Text="Адрес" Grid.Row="1" Grid.Column="0" />
+                <TextBlock Text="Кол-во ПО" Grid.Row="2" Grid.Column="0" />
+                <TextBlock Text="Кол-во ПК" Grid.Row="2" Grid.Column="0" />
+
+                <TextBox Name="customer" Grid.Row="0" Grid.Column="1" />
+                <TextBox Name="address" Grid.Row="1" Grid.Column="1" />
+                <TextBox Name="count_soft" Grid.Row="2" Grid.Column="1" />
+                <TextBox Name="count_hard" Grid.Row="3" Grid.Column="1" />
+            </Grid>
+            <Button Name="Ok" Content="Добавить" Click="Accept" />
+        </StackPanel>
+    </Grid>
+</Window>

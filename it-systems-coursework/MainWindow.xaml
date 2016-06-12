@@ -84,8 +84,61 @@
       </TabControl>
     </TabItem>
     <TabItem Header="Заказы">
-      <Grid Background="#FFE5E5E5" />
-    </TabItem>
+            <StackPanel Orientation="Vertical">
+                <WrapPanel>
+                    <WrapPanel.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Margin" Value="5,5" />
+                            <Setter Property="Padding" Value="5,5" />
+                        </Style>
+                    </WrapPanel.Resources>
+                    <Button Name="add_order" Content="Добавить" Click="ClickAddOrder" />
+                    <Button Name="remove_order" Content="Удалить" Click="ClickDeleteOrder" />
+                    <Button Name="update_order" Content="Изменить" Click="ClickUpdateOrder" />
+                    <Button Name="filter_order" Content="Поиск" />
+                </WrapPanel>
+                <ListView x:Name="OrderListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <WrapPanel>
+                                    <TextBlock Text="Заказчик: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="{Binding customer}" FontWeight="Bold" />
+                                </WrapPanel>
+                                <WrapPanel>
+                                    <TextBlock Text="Адрес: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="{Binding address}" FontWeight="Bold" />
+                                    <TextBlock Text=", " />
+                                    <TextBlock Text="Кол-во ПО: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="{Binding count_soft}" FontWeight="Bold" />
+                                    <TextBlock Text=", " />
+                                    <TextBlock Text="Кол-во компьютеров: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="{Binding count_hard}" FontWeight="Bold" />
+                                    <TextBlock Text=", " />
+                                    <TextBlock Text="Дата: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="{Binding date}" FontWeight="Bold" />
+                                </WrapPanel>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="ПО:" FontWeight="Bold" />
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding software_list}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="ПК:" FontWeight="Bold" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding hardware_list}"/>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </TabItem>
     <TabItem Header="Отчеты">
       <TabControl x:Name="ReportsTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   TabStripPlacement="Left" Margin="0">
@@ -100,6 +153,16 @@
         </TabItem>
       </TabControl>
     </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Vertical">
+                <TextBlock Text="Админи-"/>
+                <TextBlock Text="стриро-"/>
+                <TextBlock Text="вание"/>
+                </StackPanel>
+            </TabItem.Header>
+            <Grid Background="LightGray" />
+        </TabItem>  
   </TabControl>
-
+    
 </Window>
