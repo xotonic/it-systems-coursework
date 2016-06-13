@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -37,7 +38,31 @@ namespace it_systems_coursework
             orders.Add(new Order { customer = "DNS", address = "пл.Маркса 69", count_soft = 10, count_hard = 10 });
             orders.Add(new Order { customer = "НГТУ", address = "Немидовича-Данченко 139", count_soft = 0, count_hard = 30 });
 
-            HardwareListView.ItemsSource = computers;
+
+            using (var conn = SQLUtils.CreateAndOpen())
+            {
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "select * from computers_all()";
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var comp = new Computer()
+                            {
+                                producer = reader.GetString(0),
+                                name = reader.GetString(1),
+                                count = 1
+                            };
+                            computers.Add(comp);
+                        }
+                    }
+                }
+            }
+
+
+                HardwareListView.ItemsSource = computers;
             SoftwareListView.ItemsSource = software;
             OrderListView.ItemsSource = orders;
         }
