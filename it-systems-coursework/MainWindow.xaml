@@ -6,47 +6,72 @@
         xmlns:local="clr-namespace:it_systems_coursework"
         mc:Ignorable="d"
         Title="ООО 'ГИК И ГОП'" Height="588.112" Width="808.252">
-  <TabControl x:Name="MainTabControl" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
+    <TabControl x:Name="MainTabControl" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
               TabStripPlacement="Left" Padding="0">
-    <TabItem Header="Товары">
-      <TabControl x:Name="GoodsTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <TabItem Header="Товары">
+            <TabControl x:Name="GoodsTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   TabStripPlacement="Left" Margin="0">
-        <TabItem Header="Компьютеры">
-          <StackPanel Orientation="Vertical">
-            <WrapPanel>
-              <WrapPanel.Resources>
-                <Style TargetType="{x:Type Button}">
-                  <Setter Property="Margin" Value="5,5" />
-                  <Setter Property="Padding" Value="5,5" />
-                </Style>
-              </WrapPanel.Resources>
-              <Button Name="add" Content="Добавить" Click="ClickAddComputer" />
-              <Button Name="remove" Content="Удалить" Click="ClickDeleteComputer" />
-              <Button Name="update" Content="Изменить" Click="ClickUpdateComputer" />
-              <Button Name="filter" Content="Поиск" />
-            </WrapPanel>
-            <ListView x:Name="HardwareListView">
-              <ListView.ItemTemplate>
-                <DataTemplate>
-                  <StackPanel Orientation="Vertical">
-                    <WrapPanel>
-                      <TextBlock Text="Model: " Style="{StaticResource prop}" />
-                      <TextBlock Text="{Binding name}" FontWeight="Bold" />
-                    </WrapPanel>
-                    <WrapPanel>
-                      <TextBlock Text="Producer: " Style="{StaticResource prop}" />
-                      <TextBlock Text="{Binding producer}" FontWeight="Bold" />
-                      <TextBlock Text=", " />
-                      <TextBlock Text="Count: " Style="{StaticResource prop}" />
-                      <TextBlock Text="{Binding count}" FontWeight="Bold" />
-                    </WrapPanel>
-                  </StackPanel>
-                </DataTemplate>
-              </ListView.ItemTemplate>
-            </ListView>
-          </StackPanel>
-        </TabItem>
-        <TabItem Header="ПО">
+                <TabItem Header="Компьютеры">
+                    <StackPanel Orientation="Vertical">
+                        <WrapPanel>
+                            <WrapPanel.Resources>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Margin" Value="5,5" />
+                                    <Setter Property="Padding" Value="5,5" />
+                                </Style>
+                            </WrapPanel.Resources>
+                            <Button Name="add" Content="Добавить" Click="ClickAddComputer" />
+                            <Button Name="remove" Content="Удалить" Click="ClickDeleteComputer" />
+                            <Button Name="update" Content="Изменить" Click="ClickUpdateComputer" />
+                            <TextBox Name="filterbox" Text="Искать..." FontSize="14" VerticalAlignment="Center" Margin="0" HorizontalAlignment="Left" Width="150"/>
+                            <Button Name="filter" Content="Поиск" Click="ClickFilterComputer" />
+                        </WrapPanel>
+                        <ListView x:Name="HardwareListView">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="{Binding producer}" FontWeight="Bold" />
+                                            <TextBlock Text=" "/>
+                                            <TextBlock Text="{Binding name}" FontWeight="Bold" />
+                                            <TextBlock Text="  "/>
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <!--TextBlock Text="Производитель: " Style="{StaticResource prop}" /-->
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding price}" FontWeight="Bold" />
+                                                <TextBlock Text=" руб.  "  />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding ram}" FontWeight="Bold" />
+                                                <TextBlock Text=" GB RAM  "  />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding hdd}" FontWeight="Bold" />
+                                                <TextBlock Text=" GB HDD  "  />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding cores}" FontWeight="Bold" />
+                                                <TextBlock Text=" cores  "  />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding freq}" FontWeight="Bold" />
+                                                <TextBlock Text=" GHz  "  />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding gpu}" FontWeight="Bold" />
+                                                <TextBlock Text=" MB VIDEO"  />
+                                            </StackPanel>
+                                            <!--TextBlock Text=", " /-->
+                                            <!--TextBlock Text="Цена: " Style="{StaticResource prop}" /-->
+                                        </WrapPanel>
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="ПО">
                     <StackPanel Orientation="Vertical">
                         <WrapPanel>
                             <WrapPanel.Resources>
@@ -80,10 +105,10 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </StackPanel>
+                </TabItem>
+            </TabControl>
         </TabItem>
-      </TabControl>
-    </TabItem>
-    <TabItem Header="Заказы">
+        <TabItem Header="Заказы">
             <StackPanel Orientation="Vertical">
                 <WrapPanel>
                     <WrapPanel.Resources>
@@ -139,30 +164,30 @@
                 </ListView>
             </StackPanel>
         </TabItem>
-    <TabItem Header="Отчеты">
-      <TabControl x:Name="ReportsTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <TabItem Header="Отчеты">
+            <TabControl x:Name="ReportsTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   TabStripPlacement="Left" Margin="0">
-        <TabItem Header="Продажи">
-          <Grid Background="LightGray" />
+                <TabItem Header="Продажи">
+                    <Grid Background="LightGray" />
+                </TabItem>
+                <TabItem Header="Популярные">
+                    <Grid Background="LightGray" />
+                </TabItem>
+                <TabItem Header="По сезонам">
+                    <Grid Background="LightGray" />
+                </TabItem>
+            </TabControl>
         </TabItem>
-        <TabItem Header="Популярные">
-          <Grid Background="LightGray" />
-        </TabItem>
-        <TabItem Header="По сезонам">
-          <Grid Background="LightGray" />
-        </TabItem>
-      </TabControl>
-    </TabItem>
         <TabItem>
             <TabItem.Header>
                 <StackPanel Orientation="Vertical">
-                <TextBlock Text="Админи-"/>
-                <TextBlock Text="стриро-"/>
-                <TextBlock Text="вание"/>
+                    <TextBlock Text="Админи-"/>
+                    <TextBlock Text="стриро-"/>
+                    <TextBlock Text="вание"/>
                 </StackPanel>
             </TabItem.Header>
             <Grid Background="LightGray" />
-        </TabItem>  
-  </TabControl>
-    
+        </TabItem>
+    </TabControl>
+
 </Window>

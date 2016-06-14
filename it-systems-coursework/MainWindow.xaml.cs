@@ -29,8 +29,8 @@ namespace it_systems_coursework
         {
             InitializeComponent();
 
-            computers.Add(new Computer { name = "Aspire V5-561G", producer = "Acer", count = 2 });
-            computers.Add(new Computer { name = "Thinkpad V3", producer = "Lenovo", count = 1 });
+            //computers.Add(new Computer { name = "Aspire V5-561G", producer = "Acer", price = 2 });
+            //computers.Add(new Computer { name = "Thinkpad V3", producer = "Lenovo", price = 1 });
 
             software.Add(new Software { name = "NOD32 Antivirus", producer = "ESET", price = 1199.0f });
             software.Add(new Software { name = "Fallout 4", producer = "Bethesda Softworks", price = 1999.0f });
@@ -44,17 +44,12 @@ namespace it_systems_coursework
                 using (var cmd = new NpgsqlCommand())
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = "select * from computers_all()";
+                    cmd.CommandText = "select * from computers_all_with_id()";
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            var comp = new Computer()
-                            {
-                                producer = reader.GetString(0),
-                                name = reader.GetString(1),
-                                count = 1
-                            };
+                            var comp = Computer.createFromRow(reader);
                             computers.Add(comp);
                         }
                     }
@@ -62,7 +57,7 @@ namespace it_systems_coursework
             }
 
 
-                HardwareListView.ItemsSource = computers;
+            HardwareListView.ItemsSource = computers;
             SoftwareListView.ItemsSource = software;
             OrderListView.ItemsSource = orders;
         }
@@ -93,12 +88,19 @@ namespace it_systems_coursework
             while (HardwareListView.SelectedItems.Count > 0)
             {
                 var index = HardwareListView.Items.IndexOf(HardwareListView.SelectedItem);
+                var comp = HardwareListView.SelectedItem as Computer;
+                comp.deleteFromDatabase();
                 computers.RemoveAt(index);
             }
             HardwareListView.ItemsSource = null;
             HardwareListView.ItemsSource = computers;
         }
-    
+
+        private void ClickFilterComputer(object sender, RoutedEventArgs e)
+        {
+            string str = filterbox.Text;
+
+        }
 
     private void ClickAddSoftware(object sender, RoutedEventArgs e)
     {
@@ -106,9 +108,19 @@ namespace it_systems_coursework
         AddSoftware addpc = new AddSoftware();
         if (addpc.ShowDialog() == true)
             software.Add(addpc.software);
-            
 
-    }
+            /*
+            using (var conn = SQLUtils.CreateAndOpen())
+            {
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "insert into ";
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            */
+        }
 
     private void ClickUpdateSoftware(object sender, RoutedEventArgs e)
     {
