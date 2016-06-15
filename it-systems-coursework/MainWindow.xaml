@@ -24,6 +24,7 @@
                             <Button Name="remove" Content="Удалить" Click="ClickDeleteComputer" />
                             <Button Name="update" Content="Изменить" Click="ClickUpdateComputer" />
                             <TextBox Name="filterbox" Text="Искать..." FontSize="14" VerticalAlignment="Center" Margin="0" HorizontalAlignment="Left" Width="150"/>
+                            <Button Name="clearfilterbox" Content="X" Click="ClickClearFilter"/>
                             <Button Name="filter" Content="Поиск" Click="ClickFilterComputer" />
                         </WrapPanel>
                         <ListView x:Name="HardwareListView">

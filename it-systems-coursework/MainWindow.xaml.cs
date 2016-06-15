@@ -76,7 +76,7 @@ namespace it_systems_coursework
             foreach (var item in sel)
             {
                 AddComputer addpc = new AddComputer(item as Computer);
-                addpc.ShowDialog(); 
+                addpc.ShowDialog();
             }
             HardwareListView.ItemsSource = null;
             HardwareListView.ItemsSource = computers;
@@ -100,14 +100,37 @@ namespace it_systems_coursework
         {
             string str = filterbox.Text;
 
+            computers.Clear();
+            using (var conn = SQLUtils.CreateAndOpen())
+            {
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = string.Format("select * from find_computers('{0}')", str);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var comp = Computer.createFromRow(reader);
+                            computers.Add(comp);
+                        }
+                    }
+                }
+            }
         }
 
-    private void ClickAddSoftware(object sender, RoutedEventArgs e)
-    {
-        
-        AddSoftware addpc = new AddSoftware();
-        if (addpc.ShowDialog() == true)
-            software.Add(addpc.software);
+        private void ClickClearFilter(object sender, RoutedEventArgs e)
+        {
+            filterbox.Text = "";
+            ClickFilterComputer(null, null);
+        }
+
+        private void ClickAddSoftware(object sender, RoutedEventArgs e)
+        {
+
+            AddSoftware addpc = new AddSoftware();
+            if (addpc.ShowDialog() == true)
+                software.Add(addpc.software);
 
             /*
             using (var conn = SQLUtils.CreateAndOpen())
@@ -122,29 +145,29 @@ namespace it_systems_coursework
             */
         }
 
-    private void ClickUpdateSoftware(object sender, RoutedEventArgs e)
-    {
-        var sel = SoftwareListView.SelectedItems;
-        foreach (var item in sel)
+        private void ClickUpdateSoftware(object sender, RoutedEventArgs e)
         {
-            AddSoftware addpc = new AddSoftware(item as Software);
-            addpc.ShowDialog();
-        }
+            var sel = SoftwareListView.SelectedItems;
+            foreach (var item in sel)
+            {
+                AddSoftware addpc = new AddSoftware(item as Software);
+                addpc.ShowDialog();
+            }
             SoftwareListView.ItemsSource = null;
             SoftwareListView.ItemsSource = software;
 
-    }
-
-    private void ClickDeleteSoftware(object sender, RoutedEventArgs e)
-    {
-        while (SoftwareListView.SelectedItems.Count > 0)
-        {
-            var index = SoftwareListView.Items.IndexOf(SoftwareListView.SelectedItem);
-            software.RemoveAt(index);
         }
-        SoftwareListView.ItemsSource = null;
+
+        private void ClickDeleteSoftware(object sender, RoutedEventArgs e)
+        {
+            while (SoftwareListView.SelectedItems.Count > 0)
+            {
+                var index = SoftwareListView.Items.IndexOf(SoftwareListView.SelectedItem);
+                software.RemoveAt(index);
+            }
+            SoftwareListView.ItemsSource = null;
             SoftwareListView.ItemsSource = software;
-    }
+        }
 
         private void ClickAddOrder(object sender, RoutedEventArgs e)
         {
