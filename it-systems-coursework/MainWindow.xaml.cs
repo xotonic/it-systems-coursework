@@ -32,8 +32,8 @@ namespace it_systems_coursework
             //computers.Add(new Computer { name = "Aspire V5-561G", producer = "Acer", price = 2 });
             //computers.Add(new Computer { name = "Thinkpad V3", producer = "Lenovo", price = 1 });
 
-            software.Add(new Software { name = "NOD32 Antivirus", producer = "ESET", price = 1199.0f });
-            software.Add(new Software { name = "Fallout 4", producer = "Bethesda Softworks", price = 1999.0f });
+            //software.Add(new Software { name = "NOD32 Antivirus", producer = "ESET", price = 1199.0f });
+            //software.Add(new Software { name = "Fallout 4", producer = "Bethesda Softworks", price = 1999.0f });
 
             orders.Add(new Order { customer = "DNS", address = "пл.Маркса 69", count_soft = 10, count_hard = 10 });
             orders.Add(new Order { customer = "НГТУ", address = "Немидовича-Данченко 139", count_soft = 0, count_hard = 30 });
@@ -56,6 +56,22 @@ namespace it_systems_coursework
                 }
             }
 
+            using (var conn = SQLUtils.CreateAndOpen())
+            {
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "select * from software_all_with_id()";
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var sw = Software.createFromRow(reader);
+                            software.Add(sw);
+                        }
+                    }
+                }
+            }
 
             HardwareListView.ItemsSource = computers;
             SoftwareListView.ItemsSource = software;
@@ -125,24 +141,41 @@ namespace it_systems_coursework
             ClickFilterComputer(null, null);
         }
 
+        private void ClickFilterSoftware(object sender, RoutedEventArgs e)
+        {
+            string str = swfilterbox.Text;
+
+            software.Clear();
+            using (var conn = SQLUtils.CreateAndOpen())
+            {
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = string.Format("select * from find_software('{0}')", str);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var sw = Software.createFromRow(reader);
+                            software.Add(sw);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ClickClearFilterSoftware(object sender, RoutedEventArgs e)
+        {
+            swfilterbox.Text = "";
+            ClickFilterSoftware(null, null);
+        }
+
         private void ClickAddSoftware(object sender, RoutedEventArgs e)
         {
 
             AddSoftware addpc = new AddSoftware();
             if (addpc.ShowDialog() == true)
                 software.Add(addpc.software);
-
-            /*
-            using (var conn = SQLUtils.CreateAndOpen())
-            {
-                using (var cmd = new NpgsqlCommand())
-                {
-                    cmd.Connection = conn;
-                    cmd.CommandText = "insert into ";
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            */
         }
 
         private void ClickUpdateSoftware(object sender, RoutedEventArgs e)
@@ -163,6 +196,9 @@ namespace it_systems_coursework
             while (SoftwareListView.SelectedItems.Count > 0)
             {
                 var index = SoftwareListView.Items.IndexOf(SoftwareListView.SelectedItem);
+                var comp = SoftwareListView.SelectedItem as Software;
+                comp.deleteFromDatabase();
+
                 software.RemoveAt(index);
             }
             SoftwareListView.ItemsSource = null;

@@ -6,26 +6,30 @@
         xmlns:local="clr-namespace:it_systems_coursework"
         mc:Ignorable="d"
         Title="AddSoftware" Height="300" Width="300">
-  <StackPanel>
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition></ColumnDefinition>
-        <ColumnDefinition></ColumnDefinition>
-      </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-        <RowDefinition></RowDefinition>
-        <RowDefinition></RowDefinition>
-        <RowDefinition></RowDefinition>
-      </Grid.RowDefinitions>
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
 
-      <TextBlock Text="Модель" Grid.Row="0" Grid.Column="0" />
-      <TextBlock Text="Производитель" Grid.Row="1" Grid.Column="0" />
-      <TextBlock Text="Цена" Grid.Row="2" Grid.Column="0" />
+            <TextBlock Text="Модель" Grid.Row="0" Grid.Column="0" />
+            <TextBlock Text="Производитель" Grid.Row="1" Grid.Column="0" />
+            <TextBlock Text="Цена" Grid.Row="2" Grid.Column="0" />
+            <TextBlock Name="counttext" Text="Количество (шт.)" Grid.Row="3" Grid.Column="0" />
 
-      <TextBox Name="name" Grid.Row="0" Grid.Column="1" />
-      <TextBox Name="producer" Grid.Row="1" Grid.Column="1" />
-      <TextBox Name="price" Grid.Row="2" Grid.Column="1" />
-    </Grid>
-    <Button Name="Ok" Content="Добавить" Click="Accept" />
-  </StackPanel>
+
+            <TextBox Name="name" Grid.Row="0" Grid.Column="1" />
+            <TextBox Name="producer" Grid.Row="1" Grid.Column="1" />
+            <TextBox Name="price" Grid.Row="2" Grid.Column="1" />
+            <TextBox Name="count" Grid.Row="3" Grid.Column="1" Text="1"/>
+        </Grid>
+        <Button Name="Ok" Content="Добавить" Click="Accept" />
+    </StackPanel>
 </Window>

@@ -14,9 +14,10 @@ namespace it_systems_coursework
                               database="geekandgop";
         private static int port=5433;
         private static string connect_params
-        { get { return String.Format("Host={0};Username={1};Password={2};Database={3};Port={4}",
+        { get { return string.Format("Host={0};Username={1};Password={2};Database={3};Port={4}",
            server, username, password, database, port); }
         }
+
         public static NpgsqlConnection CreateAndOpen()
         {
             var conn = new NpgsqlConnection(connect_params);
@@ -24,5 +25,7 @@ namespace it_systems_coursework
             
             return conn;
         }
+
+        public static string userfirstname, usersecondname, userlogin, userpassword;
     }
 }

@@ -14,13 +14,16 @@ namespace it_systems_coursework
             //software.Add(new Software { producer = "AVAST", name = "Free Antivirus", price = 999.0f });
             //software.Add(new Software { producer = "AVAST", name = "Net Filter", price = 999.0f });
         }
-        public bool active { set; get; }
         public string customer { set; get; }
         public string address { set; get; }
-        public int count_hard { set; get; }
-        public int count_soft { set; get; }
-        public string software_list { get
-         {
+        public DateTime opened { set; get; }
+        public DateTime closed { set; get; }
+        public string username { set; get; }
+
+        public string software_list
+        {
+            get
+            {
                 string list = "";
                 foreach (var s in software)
                 {
@@ -28,8 +31,11 @@ namespace it_systems_coursework
                 }
                 if (software.Count == 0) list = "Нет";
                 return list;
-            } }
-        public string hardware_list { get
+            }
+        }
+        public string hardware_list
+        {
+            get
             {
                 string list = "";
                 foreach (var s in computers)
@@ -38,7 +44,8 @@ namespace it_systems_coursework
                 }
                 if (computers.Count == 0) list = "Нет";
                 return list;
-            } }
+            }
+        }
 
         //public int current_count { set; get; }
         public DateTime date { set; get; }
@@ -48,11 +55,11 @@ namespace it_systems_coursework
 
         public override string ToString()
         {
-            return String.Format("{0}: {1} на {2} ({3}/{4} ПО; {5}/{6} ПК)", 
-                active ? "Активный" : "Неактивный" ,
-                customer, 
+            return String.Format("{0}: {1} на {2} ({3}/{4} ПО; {5}/{6} ПК)",
+                active ? "Активный" : "Неактивный",
+                customer,
                 date.ToShortDateString(),
-                software.Count, count_soft, 
+                software.Count, count_soft,
                 computers.Count, count_hard);
         }
     }

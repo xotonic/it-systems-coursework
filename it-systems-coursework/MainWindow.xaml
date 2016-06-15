@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:it_systems_coursework"
         mc:Ignorable="d"
         Title="ООО 'ГИК И ГОП'" Height="588.112" Width="808.252">
+    
     <TabControl x:Name="MainTabControl" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
               TabStripPlacement="Left" Padding="0">
         <TabItem Header="Товары">
@@ -84,7 +85,9 @@
                             <Button Name="add_po" Content="Добавить" Click="ClickAddSoftware" />
                             <Button Name="remove_po" Content="Удалить" Click="ClickDeleteSoftware" />
                             <Button Name="update_po" Content="Изменить" Click="ClickUpdateSoftware" />
-                            <Button Name="filter_po" Content="Поиск" />
+                            <TextBox Name="swfilterbox" Text="Искать..." FontSize="14" VerticalAlignment="Center" Margin="0" HorizontalAlignment="Left" Width="150"/>
+                            <Button Name="swclearfilterbox" Content="X" Click="ClickClearFilterSoftware"/>
+                            <Button Name="swfilter" Content="Поиск" Click="ClickFilterSoftware" />
                         </WrapPanel>
                         <ListView x:Name="SoftwareListView">
                             <ListView.ItemTemplate>

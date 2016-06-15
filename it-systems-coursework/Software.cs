@@ -57,7 +57,7 @@ namespace it_systems_coursework
                     cmd.Connection = conn;
                     for (int i = 0; i < count; i++)
                     {
-                        cmd.CommandText = String.Format("select insert_software('{0}','{1}',{2})",
+                        cmd.CommandText = string.Format("select insert_software('{0}','{1}',{2})",
                             producer, name, price);
                         if (cmd.ExecuteNonQuery() == 0)
                             MessageBox.Show("Ошибка добавления записи в базу данных. Обратитесь к администратору");

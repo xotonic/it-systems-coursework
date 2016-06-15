@@ -44,6 +44,8 @@ namespace it_systems_coursework
             producer.Text = comp.producer;
             price.Text = comp.price.ToString();
             update = true;
+            count.Visibility = Visibility.Collapsed;
+            counttext.Visibility = Visibility.Collapsed;
             Ok.Content = "Изменить";
         }
 
@@ -51,7 +53,19 @@ namespace it_systems_coursework
         {
             pc.name     = name.Text;
             pc.producer = producer.Text;
-            pc.price    = float.Parse(price.Text);
+            var cnt = 0;
+
+            try
+            {
+                pc.price = float.Parse(price.Text);
+                cnt = int.Parse(count.Text);
+            }
+            catch (FormatException) { MessageBox.Show("Не все поля заполнены, либо заполнены неправильно"); return; }
+
+            if (update == true)
+                pc.updateInDatabase();
+            else
+                pc.insertToDatabase(cnt);
 
             DialogResult = true;
         }
