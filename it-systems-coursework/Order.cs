@@ -11,8 +11,8 @@ namespace it_systems_coursework
         public Order()
         {
             date = DateTime.Now;
-            software.Add(new Software { producer = "AVAST", name = "Free Antivirus", price = 999.0f });
-            software.Add(new Software { producer = "AVAST", name = "Net Filter", price = 999.0f });
+            //software.Add(new Software { producer = "AVAST", name = "Free Antivirus", price = 999.0f });
+            //software.Add(new Software { producer = "AVAST", name = "Net Filter", price = 999.0f });
         }
         public bool active { set; get; }
         public string customer { set; get; }
