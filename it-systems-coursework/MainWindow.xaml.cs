@@ -1,7 +1,10 @@
-﻿using Npgsql;
+﻿using Microsoft.Win32;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,8 +30,14 @@ namespace it_systems_coursework
 
         public MainWindow()
         {
-            while (SQLUtils.autorize() == false)
-            { }
+            ConnectParams cn = SQLUtils.DeSerializeObject<ConnectParams>("connect_params.xml");
+            SQLUtils.connectParams = cn;
+
+            int tryes = 3;
+            while (SQLUtils.autorize() == false && tryes > 0)
+            {
+                tryes--;
+            }
 
             InitializeComponent();
 
@@ -286,7 +295,7 @@ namespace it_systems_coursework
 
         private void AttachSW(object sender, RoutedEventArgs e)
         {
-            var sel =  SoftwareListView.SelectedItems;
+            var sel = SoftwareListView.SelectedItems;
             foreach (var s in sel) attachingSW.Add(s as Software);
 
             GoodsTabControl.SelectedIndex = 2;
@@ -305,7 +314,7 @@ namespace it_systems_coursework
             GoodsTabControl.SelectedItem = orders_tabitem;
             orders_tabitem.IsSelected = true;
             accept_order.Visibility = Visibility.Visible;
-            
+
         }
 
         private void AttachToOrder(object sender, RoutedEventArgs e)
@@ -315,7 +324,8 @@ namespace it_systems_coursework
             {
                 order_id = (OrderListView.SelectedItem as Order).id;
             }
-            catch (NullReferenceException) {
+            catch (NullReferenceException)
+            {
                 MessageBox.Show("Вы не выбрали заказ");
                 attachingPC.Clear();
                 attachingSW.Clear(); return;
@@ -341,7 +351,7 @@ namespace it_systems_coursework
                     using (var cmd = new NpgsqlCommand())
                     {
                         cmd.Connection = conn;
-                        cmd.CommandText = string.Format("select attach_computer({0}, {1})",  s.id_object, order_id);
+                        cmd.CommandText = string.Format("select attach_computer({0}, {1})", s.id_object, order_id);
                         if (cmd.ExecuteNonQuery() == 0)
                             MessageBox.Show("Не удается сделать запись. Обратитесь к администратору");
                     }
@@ -363,7 +373,7 @@ namespace it_systems_coursework
                 using (var cmd = new NpgsqlCommand())
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = string.Format("select * from period_computers('{0}','{1}')", 
+                    cmd.CommandText = string.Format("select * from period_computers('{0}','{1}')",
                         date_from.SelectedDate.ToString(), date_to.SelectedDate.ToString());
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -457,6 +467,54 @@ namespace it_systems_coursework
             }
 
             PopularSoftwareListView.ItemsSource = top_sw;
+        }
+
+        private void SetParams(object sender, RoutedEventArgs e)
+        {
+            SQLUtils.connectParams.server = tbServer.Text;
+            SQLUtils.connectParams.username = tbLogin.Text;
+            SQLUtils.connectParams.password = tbPassword.Text;
+            SQLUtils.connectParams.port = int.Parse(tbPort.Text);
+            SQLUtils.connectParams.database = tbDatabase.Text;
+
+            SQLUtils.SerializeObject<ConnectParams>(SQLUtils.connectParams, "connect_params.xml");
+
+            MessageBox.Show("Параметры вступят в силу после перезапуска программы");
+        }
+
+        private void LoadDump(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveDump(object sender, RoutedEventArgs e)
+        {
+            string filename = "backup.sql";
+            /*SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == true)
+                filename = saveFileDialog.FileName;
+            else return;
+            */
+            var p = new Process();
+            p.StartInfo.FileName = "pg_dump";
+            p.StartInfo.Arguments = string.Format(" -f {0} -U {1} -p {2} -w {3} -d {4} -h {5}",
+                filename,
+                SQLUtils.connectParams.username,
+                SQLUtils.connectParams.port,
+                SQLUtils.connectParams.password,
+                SQLUtils.connectParams.database,
+                SQLUtils.connectParams.server);
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.EnvironmentVariables.Add("VARIABLE1", "1");
+            p.StartInfo.Verb = "runas";
+            p.Start();
+           
+            StreamReader sr = p.StandardOutput;
+            string output = sr.ReadToEnd();
+            p.WaitForExit();
+            MessageBox.Show(output);
         }
     }
 }

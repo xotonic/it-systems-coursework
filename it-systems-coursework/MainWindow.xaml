@@ -6,21 +6,23 @@
         xmlns:local="clr-namespace:it_systems_coursework"
         mc:Ignorable="d"
         Title="ООО 'ГИК И ГОП'" Height="588.112" Width="808.252">
+    <Window.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+    </Window.Resources>
     
-    <TabControl x:Name="MainTabControl" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
-              TabStripPlacement="Left" Padding="0">
-        <TabItem Header="Товары">
+    <TabControl x:Name="MainTabControl" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
+              TabStripPlacement="Left" >
+        <TabItem Header="Товары" >
             <TabControl x:Name="GoodsTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   TabStripPlacement="Left" Margin="0">
                 <TabItem Header="Компьютеры">
                     <StackPanel Orientation="Vertical">
                         <WrapPanel>
-                            <WrapPanel.Resources>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="Margin" Value="5,5" />
-                                    <Setter Property="Padding" Value="5,5" />
-                                </Style>
-                            </WrapPanel.Resources>
+                           
                             <Button Name="add" Content="Добавить" Click="ClickAddComputer" />
                             <Button Name="remove" Content="Удалить" Click="ClickDeleteComputer" />
                             <Button Name="update" Content="Изменить" Click="ClickUpdateComputer" />
@@ -40,7 +42,7 @@
                                             <TextBlock Text="  "/>
                                         </WrapPanel>
                                         <WrapPanel>
-                                            <!--TextBlock Text="Производитель: " Style="{StaticResource prop}" /-->
+                                            <!--TextBlock Text="Производитель: "  /-->
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="{Binding price}" FontWeight="Bold" />
                                                 <TextBlock Text=" руб.  "  />
@@ -66,7 +68,7 @@
                                                 <TextBlock Text=" MB VIDEO"  />
                                             </StackPanel>
                                             <!--TextBlock Text=", " /-->
-                                            <!--TextBlock Text="Цена: " Style="{StaticResource prop}" /-->
+                                            <!--TextBlock Text="Цена: "  /-->
                                         </WrapPanel>
                                     </WrapPanel>
                                 </DataTemplate>
@@ -77,12 +79,7 @@
                 <TabItem Header="ПО">
                     <StackPanel Orientation="Vertical">
                         <WrapPanel>
-                            <WrapPanel.Resources>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="Margin" Value="5,5" />
-                                    <Setter Property="Padding" Value="5,5" />
-                                </Style>
-                            </WrapPanel.Resources>
+                           
                             <Button Name="add_po" Content="Добавить" Click="ClickAddSoftware" />
                             <Button Name="remove_po" Content="Удалить" Click="ClickDeleteSoftware" />
                             <Button Name="update_po" Content="Изменить" Click="ClickUpdateSoftware" />
@@ -97,14 +94,14 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
                                         <WrapPanel>
-                                            <TextBlock Text="Имя: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Имя: "  />
                                             <TextBlock Text="{Binding name}" FontWeight="Bold" />
                                         </WrapPanel>
                                         <WrapPanel>
-                                            <TextBlock Text="Разработчик: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Разработчик: "  />
                                             <TextBlock Text="{Binding producer}" FontWeight="Bold" />
                                             <TextBlock Text=", " />
-                                            <TextBlock Text="Цена: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Цена: "  />
                                             <TextBlock Text="{Binding price}" FontWeight="Bold" />
                                         </WrapPanel>
                                     </StackPanel>
@@ -118,12 +115,6 @@
         <TabItem x:Name="orders_tabitem" Header="Заказы">
             <StackPanel Orientation="Vertical">
                 <WrapPanel>
-                    <WrapPanel.Resources>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Margin" Value="5,5" />
-                            <Setter Property="Padding" Value="5,5" />
-                        </Style>
-                    </WrapPanel.Resources>
                     <Button Name="add_order" Content="Добавить" Click="ClickAddOrder" />
                     <Button Name="close_order" Content="Закрыть" Click="ClickCloseOrder" />
                     <Button Name="cancel_order" Content="Отменить" Click="ClickCancelOrder" />
@@ -135,17 +126,17 @@
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
                                 <WrapPanel>
-                                    <TextBlock Text="Заказчик: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="Заказчик: "  />
                                     <TextBlock Text="{Binding customer}" FontWeight="Bold" />
                                 </WrapPanel>
                                 <WrapPanel>
-                                    <TextBlock Text="Адрес: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="Адрес: "  />
                                     <TextBlock Text="{Binding address}" FontWeight="Bold" />
                                     <TextBlock Text=", " />
-                                    <TextBlock Text="Открыт: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="Открыт: "  />
                                     <TextBlock Text="{Binding opened}" FontWeight="Bold" />
                                     <TextBlock Text=", " />
-                                    <TextBlock Text="Закрыт: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="Закрыт: "  />
                                     <TextBlock Text="{Binding closed}" FontWeight="Bold" />
                                 </WrapPanel>
                                 <Grid>
@@ -191,14 +182,14 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
                                         <WrapPanel>
-                                            <TextBlock Text="Имя: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Имя: "  />
                                             <TextBlock Text="{Binding name}" FontWeight="Bold" />
                                         </WrapPanel>
                                         <WrapPanel>
-                                            <TextBlock Text="Разработчик: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Разработчик: "  />
                                             <TextBlock Text="{Binding producer}" FontWeight="Bold" />
                                             <TextBlock Text=", " />
-                                            <TextBlock Text="Цена: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Цена: "  />
                                             <TextBlock Text="{Binding price}" FontWeight="Bold" />
                                         </WrapPanel>
                                     </StackPanel>
@@ -210,14 +201,14 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
                                         <WrapPanel>
-                                            <TextBlock Text="Имя: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Имя: "  />
                                             <TextBlock Text="{Binding name}" FontWeight="Bold" />
                                         </WrapPanel>
                                         <WrapPanel>
-                                            <TextBlock Text="Разработчик: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Разработчик: "  />
                                             <TextBlock Text="{Binding producer}" FontWeight="Bold" />
                                             <TextBlock Text=", " />
-                                            <TextBlock Text="Цена: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Цена: "  />
                                             <TextBlock Text="{Binding price}" FontWeight="Bold" />
                                         </WrapPanel>
                                     </StackPanel>
@@ -242,14 +233,14 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
                                         <WrapPanel>
-                                            <TextBlock Text="Модель: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Модель: "  />
                                             <TextBlock Text="{Binding name}" FontWeight="Bold" />
                                         </WrapPanel>
                                         <WrapPanel>
-                                            <TextBlock Text="Разработчик: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Разработчик: " />
                                             <TextBlock Text="{Binding producer}" FontWeight="Bold" />
                                             <TextBlock Text=", " />
-                                            <TextBlock Text="Продано: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Продано: "  />
                                             <TextBlock Text="{Binding price}" FontWeight="Bold" />
                                         </WrapPanel>
                                     </StackPanel>
@@ -261,14 +252,14 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
                                         <WrapPanel>
-                                            <TextBlock Text="Имя: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Имя: "  />
                                             <TextBlock Text="{Binding name}" FontWeight="Bold" />
                                         </WrapPanel>
                                         <WrapPanel>
-                                            <TextBlock Text="Разработчик: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Разработчик: "  />
                                             <TextBlock Text="{Binding producer}" FontWeight="Bold" />
                                             <TextBlock Text=", " />
-                                            <TextBlock Text="Цена: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Цена: "  />
                                             <TextBlock Text="{Binding price}" FontWeight="Bold" />
                                         </WrapPanel>
                                     </StackPanel>
@@ -277,9 +268,6 @@
                         </ListView>
                     </Grid>
                 </TabItem>
-                <!--TabItem Header="По сезонам">
-                    <Grid Background="LightGray" />
-                </-->
             </TabControl>
         </TabItem>
         <TabItem>
@@ -290,7 +278,49 @@
                     <TextBlock Text="вание"/>
                 </StackPanel>
             </TabItem.Header>
-            <Grid Background="LightGray" />
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="150"></RowDefinition>
+                    <RowDefinition ></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Сервер" Grid.Column="0" Grid.Row="0" />
+                    <TextBlock Text="Логин" Grid.Column="0" Grid.Row="1" />
+                    <TextBlock Text="Пароль" Grid.Column="0" Grid.Row="2" />
+                    <TextBlock Text="Порт" Grid.Column="0" Grid.Row="3" />
+                    <TextBlock Text="База данных" Grid.Column="0" Grid.Row="4" />
+
+                    <TextBox x:Name="tbServer" Grid.Column="1" Grid.Row="0" />
+                    <TextBox x:Name="tbLogin" Grid.Column="1" Grid.Row="1" />
+                    <TextBox x:Name="tbPassword" Grid.Column="1" Grid.Row="2" />
+                    <TextBox x:Name="tbPort" Grid.Column="1" Grid.Row="3" />
+                    <TextBox x:Name="tbDatabase" Grid.Column="1" Grid.Row="4" />
+
+                    <Button x:Name="bSetBDParams" Content="Сохранить" Grid.Column="1" Grid.Row="5" Click="SetParams"/>
+                </Grid>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                    <Button Content="Загрузить дамп" Click="LoadDump"/>
+                    <Button Content="Сохранить дамп" Click="SaveDump"/>
+                </StackPanel>
+            </Grid>
         </TabItem>
     </TabControl>
 
