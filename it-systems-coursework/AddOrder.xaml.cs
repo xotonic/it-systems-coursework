@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,26 +37,34 @@ namespace it_systems_coursework
         public AddOrder()
         {
             InitializeComponent();
-            pc = new Order() { customer = "-", address = "-", count_soft = 0, count_hard = 0 };
+            pc = new Order() { customer = "-", address = "-"};
         }
-        public AddOrder(Order ord)
+       /* public AddOrder(Order ord)
         {
             InitializeComponent();
             pc = ord;
             customer.Text = ord.customer;
             address.Text = ord.address;
-            count_soft.Text = ord.count_soft.ToString();
-            count_hard.Text = ord.count_hard.ToString();
             update = true;
             Ok.Content = "Изменить";
         }
-
+        */
         private void Accept(object sender, RoutedEventArgs e)
         {
             pc.customer = customer.Text;
             pc.address = address.Text;
-            pc.count_soft = int.Parse(count_soft.Text);
-            pc.count_hard = int.Parse(count_hard.Text);
+
+            using (var conn = SQLUtils.CreateAndOpen())
+            {
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = string.Format("select add_order('{0}', '{1}', '{2}', '{3}')", 
+                        pc.customer, pc.address, SQLUtils.userlogin, SQLUtils.userpassword);
+                    if (cmd.ExecuteNonQuery() == 0)
+                        MessageBox.Show("Не удалось создать запись. Обратитесь к администаратору.");
+                }
+            }
 
             DialogResult = true;
         }

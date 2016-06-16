@@ -24,6 +24,7 @@
                             <Button Name="add" Content="Добавить" Click="ClickAddComputer" />
                             <Button Name="remove" Content="Удалить" Click="ClickDeleteComputer" />
                             <Button Name="update" Content="Изменить" Click="ClickUpdateComputer" />
+                            <Button Name="attach_pc" Content="Прикрепить" Click="AttachPC" />
                             <TextBox Name="filterbox" Text="Искать..." FontSize="14" VerticalAlignment="Center" Margin="0" HorizontalAlignment="Left" Width="150"/>
                             <Button Name="clearfilterbox" Content="X" Click="ClickClearFilter"/>
                             <Button Name="filter" Content="Поиск" Click="ClickFilterComputer" />
@@ -85,23 +86,25 @@
                             <Button Name="add_po" Content="Добавить" Click="ClickAddSoftware" />
                             <Button Name="remove_po" Content="Удалить" Click="ClickDeleteSoftware" />
                             <Button Name="update_po" Content="Изменить" Click="ClickUpdateSoftware" />
+                            <Button Name="attach_sw" Content="Прикрепить" Click="AttachSW" />
                             <TextBox Name="swfilterbox" Text="Искать..." FontSize="14" VerticalAlignment="Center" Margin="0" HorizontalAlignment="Left" Width="150"/>
                             <Button Name="swclearfilterbox" Content="X" Click="ClickClearFilterSoftware"/>
                             <Button Name="swfilter" Content="Поиск" Click="ClickFilterSoftware" />
+
                         </WrapPanel>
                         <ListView x:Name="SoftwareListView">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
                                         <WrapPanel>
-                                            <TextBlock Text="Name: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Имя: " Style="{StaticResource prop}" />
                                             <TextBlock Text="{Binding name}" FontWeight="Bold" />
                                         </WrapPanel>
                                         <WrapPanel>
-                                            <TextBlock Text="Developer: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Разработчик: " Style="{StaticResource prop}" />
                                             <TextBlock Text="{Binding producer}" FontWeight="Bold" />
                                             <TextBlock Text=", " />
-                                            <TextBlock Text="Price: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="Цена: " Style="{StaticResource prop}" />
                                             <TextBlock Text="{Binding price}" FontWeight="Bold" />
                                         </WrapPanel>
                                     </StackPanel>
@@ -112,7 +115,7 @@
                 </TabItem>
             </TabControl>
         </TabItem>
-        <TabItem Header="Заказы">
+        <TabItem x:Name="orders_tabitem" Header="Заказы">
             <StackPanel Orientation="Vertical">
                 <WrapPanel>
                     <WrapPanel.Resources>
@@ -122,9 +125,10 @@
                         </Style>
                     </WrapPanel.Resources>
                     <Button Name="add_order" Content="Добавить" Click="ClickAddOrder" />
-                    <Button Name="remove_order" Content="Удалить" Click="ClickDeleteOrder" />
-                    <Button Name="update_order" Content="Изменить" Click="ClickUpdateOrder" />
-                    <Button Name="filter_order" Content="Поиск" />
+                    <Button Name="close_order" Content="Закрыть" Click="ClickCloseOrder" />
+                    <Button Name="cancel_order" Content="Отменить" Click="ClickCancelOrder" />
+                    <Button Name="accept_order" Content="Ок" Click="AttachToOrder" Visibility="Collapsed"/>
+                    <!--Button Name="filter_order" Content="Поиск" /-->
                 </WrapPanel>
                 <ListView x:Name="OrderListView">
                     <ListView.ItemTemplate>
@@ -138,14 +142,11 @@
                                     <TextBlock Text="Адрес: " Style="{StaticResource prop}" />
                                     <TextBlock Text="{Binding address}" FontWeight="Bold" />
                                     <TextBlock Text=", " />
-                                    <TextBlock Text="Кол-во ПО: " Style="{StaticResource prop}" />
-                                    <TextBlock Text="{Binding count_soft}" FontWeight="Bold" />
+                                    <TextBlock Text="Открыт: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="{Binding opened}" FontWeight="Bold" />
                                     <TextBlock Text=", " />
-                                    <TextBlock Text="Кол-во компьютеров: " Style="{StaticResource prop}" />
-                                    <TextBlock Text="{Binding count_hard}" FontWeight="Bold" />
-                                    <TextBlock Text=", " />
-                                    <TextBlock Text="Дата: " Style="{StaticResource prop}" />
-                                    <TextBlock Text="{Binding date}" FontWeight="Bold" />
+                                    <TextBlock Text="Закрыт: " Style="{StaticResource prop}" />
+                                    <TextBlock Text="{Binding closed}" FontWeight="Bold" />
                                 </WrapPanel>
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -172,14 +173,113 @@
             <TabControl x:Name="ReportsTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   TabStripPlacement="Left" Margin="0">
                 <TabItem Header="Продажи">
-                    <Grid Background="LightGray" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="Обновить" Click="update_periods" Grid.Column="0" Grid.Row="2"/>
+                        <DatePicker x:Name="date_from" Grid.Column="0" Grid.Row="0" />
+                        <DatePicker x:Name="date_to" Grid.Column="1" Grid.Row="0" />
+                        <ListView x:Name="TopSoftwareListView" Grid.Column="0" Grid.Row="1">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <WrapPanel>
+                                            <TextBlock Text="Имя: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding name}" FontWeight="Bold" />
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Разработчик: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding producer}" FontWeight="Bold" />
+                                            <TextBlock Text=", " />
+                                            <TextBlock Text="Цена: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding price}" FontWeight="Bold" />
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <ListView x:Name="TopHardwareListView" Grid.Column="1" Grid.Row="1">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <WrapPanel>
+                                            <TextBlock Text="Имя: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding name}" FontWeight="Bold" />
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Разработчик: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding producer}" FontWeight="Bold" />
+                                            <TextBlock Text=", " />
+                                            <TextBlock Text="Цена: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding price}" FontWeight="Bold" />
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="Популярные">
-                    <Grid Background="LightGray" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="Обновить" Click="update_tops" Grid.Column="0" Grid.Row="0"/>
+                        <ListView x:Name="PopularSoftwareListView" Grid.Column="0" Grid.Row="1">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <WrapPanel>
+                                            <TextBlock Text="Модель: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding name}" FontWeight="Bold" />
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Разработчик: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding producer}" FontWeight="Bold" />
+                                            <TextBlock Text=", " />
+                                            <TextBlock Text="Продано: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding price}" FontWeight="Bold" />
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <ListView x:Name="PopularHardwareListView" Grid.Column="1" Grid.Row="1">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <WrapPanel>
+                                            <TextBlock Text="Имя: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding name}" FontWeight="Bold" />
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Разработчик: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding producer}" FontWeight="Bold" />
+                                            <TextBlock Text=", " />
+                                            <TextBlock Text="Цена: " Style="{StaticResource prop}" />
+                                            <TextBlock Text="{Binding price}" FontWeight="Bold" />
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
                 </TabItem>
-                <TabItem Header="По сезонам">
+                <!--TabItem Header="По сезонам">
                     <Grid Background="LightGray" />
-                </TabItem>
+                </-->
             </TabControl>
         </TabItem>
         <TabItem>

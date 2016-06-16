@@ -1,0 +1,25 @@
+﻿<Window x:Class="it_systems_coursework.Autorization"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:it_systems_coursework"
+        mc:Ignorable="d"
+        Title="Autorization" Height="169.438" Width="377.751">
+    <Grid Margin="50 20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock  VerticalAlignment="Center"  Text="Логин" Grid.Row="0" Grid.Column="0"/>
+        <TextBlock  VerticalAlignment="Center" Text="Пароль" Grid.Row="1" Grid.Column="0"/>
+        <TextBox x:Name="tb_login" Grid.Row="0" Grid.Column="1"/>
+        <PasswordBox x:Name="tb_password" Grid.Row="1" Grid.Column="1"/>
+        <Button VerticalAlignment="Center" Content="Вход" Grid.Row="3" Grid.Column="1" Click="Button_Click"/>
+    </Grid>
+</Window>

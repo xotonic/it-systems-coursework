@@ -27,5 +27,11 @@ namespace it_systems_coursework
         }
 
         public static string userfirstname, usersecondname, userlogin, userpassword;
+        public static bool useradmin;
+
+        public static bool autorize()
+        {
+            return (bool) new Autorization().ShowDialog();
+        }
     }
 }

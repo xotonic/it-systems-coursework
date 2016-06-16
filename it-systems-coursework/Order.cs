@@ -1,24 +1,23 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace it_systems_coursework
 {
     public class Order
     {
-        public Order()
-        {
-            date = DateTime.Now;
-            //software.Add(new Software { producer = "AVAST", name = "Free Antivirus", price = 999.0f });
-            //software.Add(new Software { producer = "AVAST", name = "Net Filter", price = 999.0f });
-        }
+
+        public int id;
         public string customer { set; get; }
         public string address { set; get; }
-        public DateTime opened { set; get; }
-        public DateTime closed { set; get; }
-        public string username { set; get; }
+        public string opened { set; get; }
+        public string closed { set; get; }
+        public string firstname { set; get; }
+        public string secondname { set; get; }
 
         public string software_list
         {
@@ -47,20 +46,74 @@ namespace it_systems_coursework
             }
         }
 
-        //public int current_count { set; get; }
-        public DateTime date { set; get; }
 
         public List<Computer> computers = new List<Computer>();
         public List<Software> software = new List<Software>();
 
         public override string ToString()
         {
-            return String.Format("{0}: {1} на {2} ({3}/{4} ПО; {5}/{6} ПК)",
-                active ? "Активный" : "Неактивный",
+            return string.Format("{0}:{1})",
                 customer,
-                date.ToShortDateString(),
-                software.Count, count_soft,
-                computers.Count, count_hard);
+                opened);
+        }
+
+        static public Order createFromRow(NpgsqlDataReader reader)
+        {
+            var o = new Order();
+            o.id = reader.GetInt32(0);
+            o.customer = reader.GetString(1);
+            o.address = reader.GetString(2);
+            o.opened = reader.GetDate(3).ToString();
+            try
+            {
+                o.closed = reader.GetDate(4).ToString();
+            }
+            catch (InvalidCastException) { o.closed = "-"; }
+            o.firstname = reader.GetString(5);
+            o.secondname = reader.GetString(5);
+
+            using (var conn = SQLUtils.CreateAndOpen())
+            {
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = string.Format("select * from ordered_computers({0})", o.id);
+                    var r = cmd.ExecuteReader();
+                    while (r.Read())
+                    {
+                        var pc = new Computer()
+                        {
+                            id_object = r.GetInt32(0),
+                            producer = r.GetString(1),
+                            name = r.GetString(2),
+                            price = (float)r.GetDouble(3)
+                        };
+                        o.computers.Add(pc);
+                    }
+                }
+            }
+            using (var conn = SQLUtils.CreateAndOpen())
+            {
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = string.Format("select * from ordered_software({0})", o.id);
+                    var r = cmd.ExecuteReader();
+                    while (r.Read())
+                    {
+                        var pc = new Software()
+                        {
+                            id_object = r.GetInt32(0),
+                            producer = r.GetString(1),
+                            name = r.GetString(2),
+                            price = (float)r.GetDouble(3)
+                        };
+                        o.software.Add(pc);
+                    }
+                }
+            }
+
+            return o;
         }
     }
 }
